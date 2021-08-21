@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">user-input-validation</string>
+    <string name="validation_error">validation error</string>
+    <string name="success">success</string>
+    <string name="credit_card_number">Credit card number</string>
+    <string name="name_too_short">Name is too short</string>
+    <string name="card_number_too_short">Number is too short</string>
+    <string name="name">Name</string>
 </resources>
