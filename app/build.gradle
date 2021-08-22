@@ -53,31 +53,12 @@ android {
 dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1'
 
-    implementation "androidx.navigation:navigation-runtime:2.4.0-alpha07"
-    implementation "androidx.navigation:navigation-compose:2.4.0-alpha07"
-
-    implementation "androidx.compose.animation:animation:$compose_version"
-    implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation "androidx.compose.foundation:foundation-layout:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-    implementation "androidx.compose.runtime:runtime:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.compose.ui:ui-util:$compose_version"
-
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha03'
-
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03'
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
 
     implementation 'com.google.android.material:material:1.4.0'
-
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
