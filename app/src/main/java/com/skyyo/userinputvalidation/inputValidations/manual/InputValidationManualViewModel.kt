@@ -83,7 +83,7 @@ class FormValidationManualViewModel @Inject constructor(private val handle: Save
     }
 
     private suspend fun clearFocusAndHideKeyboard() {
-        _events.send(ScreenEvent.ClearFocus(focusedTextField))
+        _events.send(ScreenEvent.ClearFocus)
         _events.send(ScreenEvent.UpdateKeyboard(false))
         focusedTextField = FocusedTextFieldKey.NONE
     }
