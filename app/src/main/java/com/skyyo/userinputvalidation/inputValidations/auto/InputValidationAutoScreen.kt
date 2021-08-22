@@ -60,6 +60,7 @@ fun InputValidationAutoScreen(viewModel: InputValidationAutoViewModel = hiltView
                     is ScreenEvent.UpdateKeyboard -> {
                         if (event.show) keyboardController?.show() else keyboardController?.hide()
                     }
+                    is ScreenEvent.ClearFocus -> focusManager.clearFocus()
                     is ScreenEvent.RequestFocus -> {
                         when (event.textFieldKey) {
                             FocusedTextFieldKey.NAME -> nameFocusRequester.requestFocus()

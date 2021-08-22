@@ -1,6 +1,5 @@
 package com.skyyo.userinputvalidation.inputValidations.auto
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,9 +29,8 @@ class InputValidationAutoViewModel @Inject constructor(
     val name = handle.getStateFlow(viewModelScope, "name", InputWrapper())
     val creditCardNumber = handle.getStateFlow(viewModelScope, "creditCardNumber", InputWrapper())
     val areInputsValid = combine(name, creditCardNumber) { name, cardNumber ->
-        val nameErrorId = InputValidator.getNameErrorIdOrNull(name.value)
-        val cardErrorId = InputValidator.getCardNumberErrorIdOrNull(cardNumber.value)
-        nameErrorId == null && cardErrorId == null
+        name.value.isNotEmpty() && name.errorId == null &&
+                cardNumber.value.isNotEmpty() && cardNumber.errorId == null
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
     private var focusedTextField = handle.get("focusedTextField") ?: FocusedTextFieldKey.NAME
         set(value) {
@@ -58,7 +56,6 @@ class InputValidationAutoViewModel @Inject constructor(
     }
 
     fun onTextFieldFocusChanged(key: FocusedTextFieldKey, isFocused: Boolean) {
-        Log.d("vovk", "$key, isFocused $isFocused")
         focusedTextField = if (isFocused) key else FocusedTextFieldKey.NONE
     }
 
@@ -77,12 +74,12 @@ class InputValidationAutoViewModel @Inject constructor(
     }
 
     private suspend fun clearFocusAndHideKeyboard() {
-        focusedTextField = FocusedTextFieldKey.NONE
+        _events.send(ScreenEvent.ClearFocus(focusedTextField))
         _events.send(ScreenEvent.UpdateKeyboard(false))
+        focusedTextField = FocusedTextFieldKey.NONE
     }
 
     private fun focusOnLastSelectedTextField() {
-        Log.d("vovk", "focusOnLastSelectedTextField with key $focusedTextField")
         viewModelScope.launch(Dispatchers.Default) {
             _events.send(ScreenEvent.RequestFocus(focusedTextField))
             delay(250)
