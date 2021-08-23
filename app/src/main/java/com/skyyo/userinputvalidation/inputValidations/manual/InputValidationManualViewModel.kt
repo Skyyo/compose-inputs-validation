@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-private class InputErrors(
+class InputErrors(
     val nameErrorId: Int?,
     val cardErrorId: Int?
 )
