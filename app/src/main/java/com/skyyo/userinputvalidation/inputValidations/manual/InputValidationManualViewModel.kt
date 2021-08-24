@@ -12,6 +12,7 @@ import com.skyyo.userinputvalidation.inputValidations.ScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,6 +37,10 @@ class FormValidationManualViewModel @Inject constructor(private val handle: Save
 
     private val _events = Channel<ScreenEvent>()
     val events = _events.receiveAsFlow()
+
+    init {
+        if (focusedTextField != FocusedTextFieldKey.NONE) focusOnLastSelectedTextField()
+    }
 
     fun onNameEntered(input: String) {
         name.tryEmit(name.value.copy(value = input, errorId = null))
@@ -86,6 +91,14 @@ class FormValidationManualViewModel @Inject constructor(private val handle: Save
         _events.send(ScreenEvent.ClearFocus)
         _events.send(ScreenEvent.UpdateKeyboard(false))
         focusedTextField = FocusedTextFieldKey.NONE
+    }
+
+    private fun focusOnLastSelectedTextField() {
+        viewModelScope.launch(Dispatchers.Default) {
+            _events.send(ScreenEvent.RequestFocus(focusedTextField))
+            delay(250)
+            _events.send(ScreenEvent.UpdateKeyboard(true))
+        }
     }
 }
 
