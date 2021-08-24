@@ -43,11 +43,11 @@ class FormValidationManualViewModel @Inject constructor(private val handle: Save
     }
 
     fun onNameEntered(input: String) {
-        name.tryEmit(name.value.copy(value = input, errorId = null))
+        name.value = name.value.copy(value = input, errorId = null)
     }
 
     fun onCardNumberEntered(input: String) {
-        creditCardNumber.tryEmit(creditCardNumber.value.copy(value = input, errorId = null))
+        creditCardNumber.value = creditCardNumber.value.copy(value = input, errorId = null)
     }
 
     fun onTextFieldFocusChanged(key: FocusedTextFieldKey, isFocused: Boolean) {
@@ -82,9 +82,9 @@ class FormValidationManualViewModel @Inject constructor(private val handle: Save
         }
     }
 
-    private suspend fun displayInputErrors(inputErrors: InputErrors) {
-        name.emit(name.value.copy(errorId = inputErrors.nameErrorId))
-        creditCardNumber.emit(creditCardNumber.value.copy(errorId = inputErrors.cardErrorId))
+    private fun displayInputErrors(inputErrors: InputErrors) {
+        name.value = name.value.copy(errorId = inputErrors.nameErrorId)
+        creditCardNumber.value = creditCardNumber.value.copy(errorId = inputErrors.cardErrorId)
     }
 
     private suspend fun clearFocusAndHideKeyboard() {
