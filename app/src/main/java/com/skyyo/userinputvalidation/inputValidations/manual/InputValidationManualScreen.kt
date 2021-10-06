@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -29,7 +28,6 @@ import com.skyyo.userinputvalidation.inputValidations.ScreenEvent
 import com.skyyo.userinputvalidation.inputValidations.creditCardFilter
 import com.skyyo.userinputvalidation.toast
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -53,22 +51,20 @@ fun InputValidationManualScreen(viewModel: FormValidationManualViewModel = hiltV
     val nameFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
-        launch {
-            events.collect { event ->
-                when (event) {
-                    is ScreenEvent.ShowToast -> context.toast(event.messageId)
-                    is ScreenEvent.UpdateKeyboard -> {
-                        if (event.show) keyboardController?.show() else keyboardController?.hide()
-                    }
-                    is ScreenEvent.ClearFocus -> focusManager.clearFocus()
-                    is ScreenEvent.RequestFocus -> {
-                        when (event.textFieldKey) {
-                            FocusedTextFieldKey.NAME -> nameFocusRequester.requestFocus()
-                            FocusedTextFieldKey.CREDIT_CARD_NUMBER -> creditCardNumberFocusRequester.requestFocus()
-                        }
-                    }
-                    is ScreenEvent.MoveFocus -> focusManager.moveFocus(event.direction)
+        events.collect { event ->
+            when (event) {
+                is ScreenEvent.ShowToast -> context.toast(event.messageId)
+                is ScreenEvent.UpdateKeyboard -> {
+                    if (event.show) keyboardController?.show() else keyboardController?.hide()
                 }
+                is ScreenEvent.ClearFocus -> focusManager.clearFocus()
+                is ScreenEvent.RequestFocus -> {
+                    when (event.textFieldKey) {
+                        FocusedTextFieldKey.NAME -> nameFocusRequester.requestFocus()
+                        FocusedTextFieldKey.CREDIT_CARD_NUMBER -> creditCardNumberFocusRequester.requestFocus()
+                    }
+                }
+                is ScreenEvent.MoveFocus -> focusManager.moveFocus(event.direction)
             }
         }
     }
