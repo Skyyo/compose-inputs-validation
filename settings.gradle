@@ -4,8 +4,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "user-input-validation"
+rootProject.name = "compose-inputs-validation"
 include ':app'
