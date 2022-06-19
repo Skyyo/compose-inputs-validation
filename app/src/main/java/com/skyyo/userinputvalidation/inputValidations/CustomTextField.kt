@@ -23,8 +23,12 @@ fun CustomTextField(
     modifier: Modifier,
     inputWrapper: InputWrapper,
     @StringRes labelResId: Int,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = remember {
+        KeyboardOptions.Default
+    },
+    visualTransformation: VisualTransformation = remember {
+        VisualTransformation.None
+    },
     onValueChange: OnValueChange,
     onImeKeyAction: OnImeKeyAction
 
@@ -44,7 +48,9 @@ fun CustomTextField(
             isError = inputWrapper.errorId != null,
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
-            keyboardActions = KeyboardActions(onAny = { onImeKeyAction() }),
+            keyboardActions = remember {
+                KeyboardActions(onAny = { onImeKeyAction() })
+            },
         )
         if (inputWrapper.errorId != null) {
             Text(

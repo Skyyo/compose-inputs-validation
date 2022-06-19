@@ -84,10 +84,12 @@ fun InputValidationManualScreen(viewModel: FormValidationManualViewModel = hiltV
                     )
                 },
             labelResId = R.string.name,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
+            keyboardOptions = remember {
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                )
+            },
             inputWrapper = name,
             onValueChange = viewModel::onNameEntered,
             onImeKeyAction = viewModel::onNameImeActionClick
@@ -103,10 +105,12 @@ fun InputValidationManualScreen(viewModel: FormValidationManualViewModel = hiltV
                     )
                 },
             labelResId = R.string.credit_card_number,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
+            keyboardOptions = remember {
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                )
+            },
             visualTransformation = ::creditCardFilter,
             inputWrapper = creditCardNumber,
             onValueChange = viewModel::onCardNumberEntered,
