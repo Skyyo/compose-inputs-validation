@@ -61,9 +61,7 @@ class InputValidationAutoViewModel @Inject constructor(
     }
 
     fun onNameImeActionClick() {
-        viewModelScope.launch(Dispatchers.Default) {
-            _events.send(ScreenEvent.MoveFocus())
-        }
+        _events.trySend(ScreenEvent.MoveFocus())
     }
 
     fun onContinueClick() {

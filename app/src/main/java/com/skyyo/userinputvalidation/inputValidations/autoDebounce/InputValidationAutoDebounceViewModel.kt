@@ -4,12 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skyyo.userinputvalidation.R
-import com.skyyo.userinputvalidation.inputValidations.FocusedTextFieldKey
-import com.skyyo.userinputvalidation.inputValidations.InputValidator
-import com.skyyo.userinputvalidation.inputValidations.InputWrapper
-import com.skyyo.userinputvalidation.inputValidations.ScreenEvent
+import com.skyyo.userinputvalidation.inputValidations.*
 import com.skyyo.userinputvalidation.inputValidations.manual.CREDIT_CARD_NUMBER
-import com.skyyo.userinputvalidation.inputValidations.manual.InputErrors
 import com.skyyo.userinputvalidation.inputValidations.manual.NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -98,15 +94,11 @@ class InputValidationAutoDebounceViewModel @Inject constructor(
     }
 
     fun onNameEntered(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            inputEvents.send(UserInputEvent.Name(input))
-        }
+        inputEvents.trySend(UserInputEvent.Name(input))
     }
 
     fun onCardNumberEntered(input: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            inputEvents.send(UserInputEvent.CreditCard(input))
-        }
+        inputEvents.trySend(UserInputEvent.CreditCard(input))
     }
 
     fun onTextFieldFocusChanged(key: FocusedTextFieldKey, isFocused: Boolean) {
@@ -114,9 +106,7 @@ class InputValidationAutoDebounceViewModel @Inject constructor(
     }
 
     fun onNameImeActionClick() {
-        viewModelScope.launch(Dispatchers.Default) {
-            _events.send(ScreenEvent.MoveFocus())
-        }
+        _events.trySend(ScreenEvent.MoveFocus())
     }
 
     fun onContinueClick() {

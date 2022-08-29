@@ -20,6 +20,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.skyyo.userinputvalidation.R
 import com.skyyo.userinputvalidation.inputValidations.CustomTextField
@@ -29,7 +31,7 @@ import com.skyyo.userinputvalidation.inputValidations.creditCardFilter
 import com.skyyo.userinputvalidation.toast
 import kotlinx.coroutines.flow.collect
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun InputValidationManualScreen(viewModel: FormValidationManualViewModel = hiltViewModel()) {
     val context = LocalContext.current
@@ -44,8 +46,8 @@ fun InputValidationManualScreen(viewModel: FormValidationManualViewModel = hiltV
         )
     }
 
-    val name by viewModel.name.collectAsState()
-    val creditCardNumber by viewModel.creditCardNumber.collectAsState()
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val creditCardNumber by viewModel.creditCardNumber.collectAsStateWithLifecycle()
 
     val creditCardNumberFocusRequester = remember { FocusRequester() }
     val nameFocusRequester = remember { FocusRequester() }
@@ -62,6 +64,7 @@ fun InputValidationManualScreen(viewModel: FormValidationManualViewModel = hiltV
                     when (event.textFieldKey) {
                         FocusedTextFieldKey.NAME -> nameFocusRequester.requestFocus()
                         FocusedTextFieldKey.CREDIT_CARD_NUMBER -> creditCardNumberFocusRequester.requestFocus()
+                        else -> {}
                     }
                 }
                 is ScreenEvent.MoveFocus -> focusManager.moveFocus(event.direction)

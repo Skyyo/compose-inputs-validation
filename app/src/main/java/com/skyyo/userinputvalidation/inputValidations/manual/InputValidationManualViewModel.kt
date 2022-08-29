@@ -4,10 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skyyo.userinputvalidation.R
-import com.skyyo.userinputvalidation.inputValidations.FocusedTextFieldKey
-import com.skyyo.userinputvalidation.inputValidations.InputValidator
-import com.skyyo.userinputvalidation.inputValidations.InputWrapper
-import com.skyyo.userinputvalidation.inputValidations.ScreenEvent
+import com.skyyo.userinputvalidation.inputValidations.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -19,10 +16,6 @@ import javax.inject.Inject
 const val NAME = "name"
 const val CREDIT_CARD_NUMBER = "ccNumber"
 
-class InputErrors(
-    val nameErrorId: Int?,
-    val cardErrorId: Int?
-)
 
 @HiltViewModel
 class FormValidationManualViewModel @Inject constructor(
@@ -57,9 +50,7 @@ class FormValidationManualViewModel @Inject constructor(
     }
 
     fun onNameImeActionClick() {
-        viewModelScope.launch(Dispatchers.Default) {
-            _events.send(ScreenEvent.MoveFocus())
-        }
+        _events.trySend(ScreenEvent.MoveFocus())
     }
 
     fun onContinueClick() {
